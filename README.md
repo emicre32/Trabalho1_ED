@@ -1,16 +1,17 @@
 # Trabalho1_ED
 
 _Cidade_ 
-medir consumo (NO PARAMETERS REQUIRED)
 
-_Bairro_
->> id, Nome
+	[ ] medir consumo (NO PARAMETERS REQUIRED)
+
+_Bairro_ (id, Nome)
+
 	[ ] [inicialização] incluir na cidade
 		>> id, nome
 
 
-_Rua_
->> id, Nome
+_Rua_ (id, Nome)
+
 	[ ] incluir 
 		>> id bairro, id rua, nome
 
@@ -21,8 +22,8 @@ _Rua_
 		>> id bairro, id rua
 
 
-_Casa_
->> id do consumidor, número da casa, consumo, nome do consumidor
+_Casa_ (id do consumidor, número da casa, consumo, nome do consumidor)
+
 	[ ] incluir 
 		>> id bairro, id rua, id consumidor, num da casa, consumo, nome do consumidor
 	
