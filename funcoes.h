@@ -11,3 +11,6 @@ typedef struct moradias {
 	char consumidor;
 	struct moradias * prox;
 } Casa;
+
+
+
