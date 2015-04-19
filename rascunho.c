@@ -33,4 +33,3 @@ struct Bairro
 }
 
 typedef struct Bairro nhood;
-
