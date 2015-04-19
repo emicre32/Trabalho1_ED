@@ -70,7 +70,8 @@ street * insere_rua(int idBairro, int id, char *nome)
         strcpy(novarua->nome_rua, nome);
         novarua->proxr = NULL;            
         }
-};
+    return(novarua);
+}
 
 FILE * abrirMapa()
 {
