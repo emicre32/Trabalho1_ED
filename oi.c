@@ -6,22 +6,26 @@
 
 int main() {
 
+   // Variáveis
     FILE * mapa;
     char * comando, *descr;
-    int * id1, *id2;
+    int * id1 = NULL, *id2 = NULL;
+    nhood *head_bairro;
 
-    //nhood *Cidade;
-
-    mapa = abrirMapa();
+    // Alocações
     comando = (char*)malloc(9*sizeof(char));
+    descr = (char*)malloc(60*sizeof(char));
     id1 = (int*)malloc(sizeof(int));
     id2 = (int*)malloc(sizeof(int));
-    descr = (char*)malloc(60*sizeof(char));
+
+    // Inicialização
+    mapa = abrirMapa();
+    head_bairro = inicia_bairro();
 
             
 
-    //while(comando != EOF)
-    //{
+    //while(comando != EOF)    ~ ativar depois para ler todo o arquivo
+    //{                         ~ por enquanto estou testando apenas com uma linha do arquivo teste
 
         fscanf(mapa, "%s", comando);  // rua, casa, bairro ou cidade
 
@@ -36,6 +40,9 @@ int main() {
                     fscanf(mapa, "%i", id2); // id rua  
                     fscanf(mapa, "%[^\n]", descr); // nome   
                     
+                    head_bairro = insere_bairro(id1, "camburi");   // para testar o funcionamento
+                    printf("%i, %s\n", *head_bairro->id_bairro, head_bairro->nome_bairro);
+
                     /* função <incluir_rua> */
                 }
 
