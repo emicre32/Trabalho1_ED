@@ -79,7 +79,7 @@ nhood * inicia_bairro()
 }
 
 // FUNÇÃO QUE ALOCA UM ESPAÇO DE MEMORIA PARA UM BAIRRO, SE HOUVER MEMORIA
-nhood * insere_bairro(int *id, char *nome)
+nhood  *aloca_bairro(int *id, char *nome)
 {
     nhood *novobairro = (nhood*) malloc(sizeof(struct Bairro)); 
 
@@ -180,6 +180,7 @@ street aloca_rua(int id, char *nome)
         novarua->nome_rua = (char*)malloc(strlen(nome)+1*sizeof(char));
         strcpy(novarua->nome_rua, nome);
         novarua->head_casa = NULL;
+        novarua->proxr = NULL;
         printf("Rua %s inserida com sucesso!\n", novarua->nome_rua );
         return(novarua);
         
@@ -221,7 +222,7 @@ street *insereinicio_rua(int idBairro, int id, char *nome)
 street *insere_rua(int idBairro, int id, char *nome)
 {
     nhood *bairro = procura_bairro(idBairro);
-    if(bairro->id < bairro->head_rua->proxr->id_bairro)
+    if(id < bairro->head_rua->proxr->id_rua)
     {
         return insereinicio_rua(idBairro, id, nome);
     } 
@@ -239,7 +240,7 @@ street *insere_rua(int idBairro, int id, char *nome)
         
         if(id == rua_atual->id_rua)
         {
-            printf("Esse rua ja foi cadastrada!\n");
+            printf("Essa rua ja foi cadastrada!\n");
             break;
         } 
         else 
@@ -251,6 +252,90 @@ street *insere_rua(int idBairro, int id, char *nome)
 
     }   
 }
+
+//tamanho de uma lista de ruas num bairro
+int tamanho_rua(int idbairro)
+{
+    int tam_rua=0;
+    nhood *bairro = procura_bairro(idbairro);
+    nhood *aux = bairro->head_rua->proxr;
+    tam_rua++;
+    while(aux->proxr != NULL)
+    {
+        tam_rua++;
+        aux = aux.proxr;
+    }
+    return tam_rua;
+}
+
+street *retirainicio_rua(int idBairro, int id)
+{
+    nhood *bairro = procura_bairro(idBairro);
+    if(bairro->head_rua = NULL);
+    {
+        printf("Nao ha ruas cadastradas nesse bairro!\n");
+        return NULL;
+    }
+    else
+    {
+         street *aux = bairro->head_rua->proxr;
+         bairro->head_rua->proxr = aux->proxr;
+         printf("Rua %d retirada com sucesso!\n", id );
+         return aux;
+
+    }
+}
+
+int *retira_rua(int idBairro, int id)
+{
+   
+    int tam = tamanho_rua(idBairro);
+    if(tam == 0)
+    {
+        printf("Nao ha ruas cadastradas nesse bairro!\n");
+        return NULL
+    }
+    else
+    {
+        nhood *bairro = procura_bairro(idBairro);
+       if(id == bairro->head_rua->proxr)
+       {
+           retirainicio_rua(idBairro, id);
+       }      
+       else
+       {
+           street *atual = bairro->head_rua->proxr;
+           street *anterior = bairro->head_rua;
+ 
+           for(int = 0; i < tam; i++)
+           { 
+              if(atual->id_rua == id) break;
+              else
+              {
+                anterior = atual;
+                atual = atual->proxr;
+                continue;
+              }
+           }
+           if(atual->id_rua == id)
+           {   
+              printf("Rua %d retirada com sucesso!\n", id );
+              anterior->proxr = atual->proxr;
+              free(atual);
+              return 0;
+              
+           }
+           else
+           {
+              printf("Rua nao encontrada!\n");
+              return 0;
+           }
+        } 
+    }
+    
+}
+
+
 
 // FIM DE FUNCOES PARA RUA ---------------------------------------------------------------------------------------//
 
@@ -266,7 +351,7 @@ street *insere_rua(int idBairro, int id, char *nome)
 
 // FUNCOES PARA CASA ----------------------------------------------------------------------------------------------//
 
-street aloca_casa(int idconsumidor, int casa, float consumo, char *nome)
+street aloca_casa(int idconsumidor, int casa, float consumo, char *consumidor)
 {
     house *novacasa = (house*) malloc(sizeof(struct Casa));
     if(!novacasa)
@@ -289,7 +374,7 @@ street aloca_casa(int idconsumidor, int casa, float consumo, char *nome)
 street procura_rua(int idRua, int idBairro)
 {
     
-    nhood *bairro = procura_bairro(int idBairro);
+    nhood *bairro = procura_bairro(idBairro);
     street *aux = bairro->head_rua->proxr;
     while(idRua != aux->id_rua)
     {
@@ -303,6 +388,53 @@ street procura_rua(int idRua, int idBairro)
     else return aux;
 
 }
+
+house *insereinicio_casa(int idbairro, int idrua, int idconsumidor, int casa, float consumo, char *consumidor)
+{
+    street *rua = procura_rua(idrua, idbairro);
+    house *nova = aloca_casa(idconsumidor, casa, consumo, consumidor);
+    house *old_primeira = rua->head_casa->proxc; //armazenando o endereço da primeira casa
+
+    rua->head_casa->proxc = nova; //colocando o bairro desejado no primeiro lugar da lista
+    nova->proxc = old_primeira;
+    return nova;
+}
+
+house *insere_casa(int idbairro, int idrua, int idconsumidor, int casa, float consumo, char *consumidor)
+{
+    street *rua = procura_rua(idrua, idbairro);
+    if(casa < rua->head_casa->proxc->id_casa)
+    {
+        return insereinicio_casa(idbairro, idrua, idconsumidor, casa, consumo, consumidor)
+    } 
+    else 
+    {   
+        house *casa_atual = rua->head_casa->proxc;
+        house *casa_anterior = rua->head_casa;
+        street *nova = aloca_casa(idconsumidor, casa, consumo, consumidor);
+        
+        while(casa > casa_atual->id_casa)
+        {
+            casa_anterior = casa_atual;
+            casa_atual = casa_atual->proxc;
+        }
+        
+        if(id == casa_atual->id_casa)
+        {
+            printf("Essa casa ja foi cadastrada!\n");
+            break;
+        } 
+        else 
+        {
+            casa_anterior->proxc = nova;
+            nova->proxc = casa_atual;
+            return nova;
+        }   
+
+    }   
+}
+
+
 
 
 
