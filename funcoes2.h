@@ -197,7 +197,7 @@ nhood procura_bairro(int idBairro)
     {
         aux = aux->proxb;
     }
-    if(aux->proxb == NULL)
+    if(aux->proxb == NULL && aux->id_bairro != idBairro)
     {
         printf("Bairro não encontrado!\n");
         break;
@@ -336,6 +336,7 @@ int *retira_rua(int idBairro, int id)
 
 
 
+
 // FIM DE FUNCOES PARA RUA ---------------------------------------------------------------------------------------//
 
 
@@ -379,7 +380,7 @@ street procura_rua(int idRua, int idBairro)
     {
         aux = aux->proxr;
     }
-    if(aux->proxr == NULL)
+    if(aux->proxr == NULL && aux->id_rua != idRua)
     {
         printf("Rua não encontrada!\n");
         break;
@@ -516,10 +517,75 @@ int *retira_casa(int idbairro, int idrua, int idcasa)
     
 }
 
+house 
+
+
+house procura_casa(int idbairro, int idrua, int idcasa)
+{
+    street *rua = procura_rua(idrua, idbairro);
+    house *aux = rua->head_casa->proxc;
+    while(idcasa != aux->id_casa)
+    {
+        aux = aux->proxr;
+    }
+    if(aux->proxc == NULL && aux->id_casa != idcasa)
+    {
+        printf("Casa não encontrada!\n");
+        break;
+        return NULL;
+    }
+    else return aux;
+}
+
+
+
 // FIM DE FUNCOES PARA CASA--------------------------------------------------------------------------------------//
 
 
 
+
+
+
+
+
+// FUNCOES CONSUMO ----------------------------------------------------------------------------------------------//
+
+float medir_casa(int idbairro, int idrua, int idcasa)
+{
+    float consumo_medir;
+    house *casa = procura_casa(idbairro, idrua, idcasa);
+    consumo_medir = casa->consumo;
+    return consumo_medir;
+}
+
+int inserir_consumo(int idbairro, int idrua, int idcasa, float consumo)
+{
+    house *casa = procura_casa(idbairro, idrua, idcasa);
+    if (casa != NULL) 
+    {    
+        casa->consumo =+ consumo;
+        return 0;
+    }  
+    else return NULL;  
+}
+
+float medir_rua(int idbairro, int idrua)
+{
+    float consumo_rua=0;
+    street *rua = procura_rua(idrua, idbairro);
+    if(rua != NULL)
+    {  
+      house *aux = rua->head_casa->proxc;
+      while(aux->proxc != NULL)
+      {
+          consumo_rua =+ aux->consumo;
+          aux = aux->proxc;
+      }
+      return consumo_rua;
+    }
+    else return NULL; 
+
+}
 
 
 
