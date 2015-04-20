@@ -25,7 +25,7 @@ typedef struct Rua
 
 typedef struct Bairro
 {
-    int id_bairro;
+    int *id_bairro;
     char *nome_bairro;
     street *head_rua;
     struct Bairro *proxb;
@@ -70,16 +70,19 @@ FILE * abrirMapa()
 
 
 //Função que cria a head da lista de bairros
-void incia_bairro()
+nhood * inicia_bairro()
 {
-    nhood *head_bairro = (nhood*) alloc(sizeof(struct Bairro)); 
+    nhood *head_bairro = (nhood*) malloc(sizeof(struct Bairro)); 
     head_bairro->proxb = NULL;
+
+    return(head_bairro);
 }
 
 // FUNÇÃO QUE ALOCA UM ESPAÇO DE MEMORIA PARA UM BAIRRO, SE HOUVER MEMORIA
-nhood *aloca_bairro(int id, char *nome)
+nhood * insere_bairro(int *id, char *nome)
 {
     nhood *novobairro = (nhood*) malloc(sizeof(struct Bairro)); 
+
     if(!novobairro)
     {
         printf("ERROR: NAO HA MEMORIA DISPONIVEl!\n");
@@ -87,11 +90,13 @@ nhood *aloca_bairro(int id, char *nome)
     }
     else
     {
+        novobairro->id_bairro = (int*)malloc(sizeof(int));
         novobairro->id_bairro = id;
         novobairro->nome_bairro = (char*) malloc( strlen(nome)+1*sizeof(char) );
         strcpy (novobairro->nome_bairro, nome);
         novobairro->head_rua = NULL;
-        printf("Bairro %s cadastrado coom sucesso\n", novobairro->nome_bairro);
+        novobairro->proxb = NULL;
+        printf("Bairro %s cadastrado com sucesso\n", novobairro->nome_bairro);
         return novobairro;
     }
     
