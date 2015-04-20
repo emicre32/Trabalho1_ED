@@ -32,9 +32,18 @@ typedef struct Bairro
 } nhood;
 
 
-// INSERE BAIRRO NA CIDADE
-nhood * insere_bairro(int id, char *nome)
+//Função que cria a head da lista de bairros
+void incia_bairro()
 {
+    nhood *head_bairro = (nhood*) alloc(sizeof(struct Bairro)); 
+    head_bairro->proxb = NULL;
+}
+
+// FUNÇÃO QUE ALOCA UM ESPAÇO DE MEMORIA PARA UM BAIRRO, SE HOUVER MEMORIA
+nhood *aloca_bairro(int id, char *nome)
+{
+    int pos=0;
+
     nhood *novobairro = (nhood*) malloc(sizeof(struct Bairro)); 
     if(!novobairro)
     {
@@ -47,12 +56,65 @@ nhood * insere_bairro(int id, char *nome)
         novobairro->nome_bairro = (char*) malloc( strlen(nome)+1*sizeof(char) );
         strcpy (novobairro->nome_bairro, nome);
         novobairro->head_rua = NULL;
-        novobairro->proxb = NULL;
         printf("Bairro %s cadastrado coom sucesso\n", novobairro->nome_bairro);
         return novobairro;
     }
     
 }
+
+//FUNCAO QUE INSERE UM BAIRRO NO INICIO DA LISTA DE BAIRROS
+nhood *insereinicio_bairro(int id, char *nome)
+{
+    
+     nhood *novo = aloca_bairro(id, nome);
+     nhood *old_primeiro = head_bairro->proxb; //armazenando o endereço do primeiro bairro
+
+     head_bairro->proxb = novo; //colocando o bairro desejado no primeiro lugar da lista
+     novo->proxb = old_primeiro;
+     return novo;
+
+}
+
+//FUNCAO QUE INSERE UM BAIRRO EM QUALQUER LUGAR DA LISTA DE BAIRROS
+nhood *insere_bairro(int id, char *nome)
+{
+
+    if(id < head_bairro->proxb->id_bairro)
+    {
+        insereinicio_bairro(id, nome);
+        return novo;
+    } 
+    else 
+    {   /* bairro_atual e bairro_anteior são ponteiros que percorrem a 
+        lista até achar o lugar correto para inserir o bairro desejado*/
+        nhood *bairro_atual = head_bairro->proxb;
+        nhood *bairro_anterior = head_bairro;
+        nhood *novo = aloca_bairro(id, nome);
+        /*os ponteiros avançam na lista até achar um bairro que tenham
+         um numero de id maior que o desejado*/
+        while(id > bairro_atual->id_bairro)
+        {
+            bairro_anterior = bairro_atual;
+            bairro_atual = bairro_atual->proxb;
+        }
+        /*se o bairro já esta cadastrado, a função é abortada*/
+        if(id == bairro_atual->id_bairro)
+        {
+            printf("Esse bairro ja foi cadastrado!\n");
+            break;
+        } 
+        else 
+        {
+            bairro_anterior->proxb = novo;
+            novo->proxb = bairro_atual;
+            return novo;
+        }   
+
+    }   
+}
+
+street aloca_rua(int idBairro, int id, char *nome)
+
 
 // Inserir Rua
 street * insere_rua(int idBairro, int id, char *nome)
@@ -72,6 +134,8 @@ street * insere_rua(int idBairro, int id, char *nome)
         }
     return(novarua);
 }
+
+
 
 FILE * abrirMapa()
 {

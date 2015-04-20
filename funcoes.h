@@ -35,21 +35,6 @@ struct Bairro
 typedef struct Bairro nhood;
 
 
-//ALOCA MEMORIA PARA BAIRRO SE HOUVER MEMORIA DISPONIVEL
-nhood aloca_bairro()
-{
-    nhood *novobairro = (nhood*) malloc(sizeof(struct Bairro));
-    if(!novo)
-    {
-        printf("ERROR: NAO HA MEMORIA DISPONIVEl!\n");
-        exit(1);
-    }
-    else
-    {
-        printf("Bairro cadastrado coom sucesso\n");
-    }
-
-}
 
 // INSERE BAIRRO NA CIDADE
 nhood insere_bairro(int id, char *nome)
@@ -87,19 +72,9 @@ int bairro_vazio(nhood *BAIRRO)
 }
 
 
-// SOCORRRRRORROROROROROROROOOOOOOOO
-street insere_rua(nhood *bairro, int id, char *nome)
+house insere_rua(int id_b, int id_r, char *nome)
 {
-    street *novarua = (street*) malloc(sizeof(struct Rua));
-    if(!novarua)
-    {
-        printf("ERROR: NAO HA MEMORIA DISPONIVEL");
-        exit(1);
-    }
-    else
-    {
-        bairro->
-    }
+    street *novarua
 }
 
 
