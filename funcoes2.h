@@ -258,8 +258,7 @@ int tamanho_rua(int idbairro)
 {
     int tam_rua=0;
     nhood *bairro = procura_bairro(idbairro);
-    nhood *aux = bairro->head_rua->proxr;
-    tam_rua++;
+    street *aux = bairro->head_rua->proxr;
     while(aux->proxr != NULL)
     {
         tam_rua++;
@@ -433,6 +432,92 @@ house *insere_casa(int idbairro, int idrua, int idconsumidor, int casa, float co
 
     }   
 }
+
+int *retirainicio_casa(int idbairro, int idrua, int idcasa)
+{
+    street *rua = procura_rua(idrua, idbairro);
+    if(rua->head_casa = NULL);
+    {
+        printf("Nao ha casas cadastradas nessa rua!\n");
+        return 0;
+    }
+    else
+    {
+         house *aux = rua->head_casa->proxc;
+         rua->head_casa->proxc = aux->proxc;
+         printf("Casa %d retirada com sucesso!\n", idcasa );
+         return 0;
+
+    }
+}
+
+
+int tamanho_casa(int idbairro, int idrua)
+{
+    int tam_casa=0;
+    street *rua = procura_rua(idrua, idbairro);
+    house *aux = rua->head_casa->proxc;
+    while(aux->proxr != NULL)
+    {
+        tam_casa++;
+        aux = aux.proxc;
+    }
+    return tam_casa;
+}
+
+
+
+int *retira_casa(int idbairro, int idrua, int idcasa)
+{
+   
+    int tam = tamanho_casa(idbairro, idrua);
+    if(tam == 0)
+    {
+        printf("Nao ha casas cadastradas nessa rua!\n");
+        return 0;
+    }
+    else
+    {
+       street *rua = procura_rua(idrua, idbairro);
+       if(idcasa == rua->head_casa->proxc)
+       {
+           retirainicio_casa(idbairro, idrua, idcasa);
+       }      
+       else
+       {
+           house *atual = rua->head_casa->proxc;
+           house *anterior = rua->head_casa;
+ 
+           for(int = 0; i < tam; i++)
+           { 
+              if(atual->id_casa == idcasa) break;
+              else
+              {
+                anterior = atual;
+                atual = atual->proxc;
+                continue;
+              }
+           }
+           if(atual->id_casa == idcasa)
+           {   
+              printf("Casa %d retirada com sucesso!\n", idcasa );
+              anterior->proxc = atual->proxc;
+              free(atual);
+              return 0;
+              
+           }
+           else
+           {
+              printf("Casa nao encontrada!\n");
+              return 0;
+           }
+        } 
+    }
+    
+}
+
+// FIM DE FUNCOES PARA CASA--------------------------------------------------------------------------------------//
+
 
 
 
