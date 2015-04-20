@@ -36,6 +36,32 @@ typedef struct Bairro
 
 
 
+// FUNÇÃO PARA ABRIR O ARQUIVO FONTE ---------------------------------------------------------------------------//
+FILE * abrirMapa()
+{
+    char * nome;
+    FILE * arq;
+
+    nome = (char*)malloc(30*sizeof(char));
+
+    while(1)
+    {
+    printf("Digite o nome do arquivo fonte: \n");
+    scanf("%s", nome);
+
+    arq = fopen(nome, "r");
+
+    if (arq == NULL) printf("O arquivo nao foi encontrado.\n");
+        else break;
+    }
+
+    free(nome);
+
+    return(arq);
+}
+
+
+
 
 
 
