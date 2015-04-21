@@ -10,7 +10,6 @@ int main() {
     FILE * mapa;
     char * comando, *descr;
     int * id1 = NULL, *id2 = NULL;
-    nhood *head_bairro;
 
     int i;
 
@@ -22,7 +21,6 @@ int main() {
 
     // Inicialização
     mapa = abrirMapa();
-    head_bairro = inicia_bairro();
 
 
             
