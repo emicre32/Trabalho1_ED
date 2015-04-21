@@ -9,7 +9,7 @@ struct Casa
     float consumo;
     char *nome_consumidor;
     struct Casa *proxc;
-}
+};
 
 typedef struct Casa house;
 
@@ -20,7 +20,7 @@ struct Rua
     house *head_casa;
     struct Rua *proxr;
     
-}
+};
 
 typedef struct Rua street;
 
@@ -30,7 +30,7 @@ struct Bairro
     char *nome_bairro;
     street *head_rua;
     struct Bairro *proxb;
-}
+};
 
 typedef struct Bairro nhood;
 

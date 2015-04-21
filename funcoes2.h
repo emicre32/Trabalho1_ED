@@ -47,7 +47,7 @@ typedef struct Rua
 
 typedef struct Bairro
 {
-    int *id_bairro;
+    int id_bairro;
     char *nome_bairro;
     street *head_rua;
     struct Bairro *proxb;
@@ -59,19 +59,16 @@ typedef struct Bairro
 
 
 //Função que cria a head da lista de bairros
-nhood * inicia_bairro()
+nhood * inicia_bairro(nhood *bairro)
 {
-    nhood *head_bairro = (nhood*) malloc(sizeof(struct Bairro)); 
-    head_bairro->proxb = NULL;
+    bairro = (nhood*) malloc(sizeof(struct Bairro)); 
+    bairro->proxb = NULL;
 
-    return(head_bairro);
+    return(bairro);
 }
 
-
-
-
 // FUNÇÃO QUE ALOCA UM ESPAÇO DE MEMORIA PARA UM BAIRRO, SE HOUVER MEMORIA
-nhood * aloca_bairro(int *id, char *nome)
+nhood * aloca_bairro(int id, char *nome)
 {
     nhood *novobairro = (nhood*) malloc(sizeof(struct Bairro)); 
 
@@ -82,7 +79,6 @@ nhood * aloca_bairro(int *id, char *nome)
     }
     else
     {
-        novobairro->id_bairro = (int*)malloc(sizeof(int));
         novobairro->id_bairro = id;
         novobairro->nome_bairro = (char*) malloc( strlen(nome)+1*sizeof(char) );
         strcpy (novobairro->nome_bairro, nome);
@@ -96,7 +92,7 @@ nhood * aloca_bairro(int *id, char *nome)
 
 
 //FUNCAO QUE INSERE UM BAIRRO NO INICIO DA LISTA DE BAIRROS
-void insereinicio_bairro(nhood * head_bairro, int * id, char *nome)
+void insereinicio_bairro(nhood * head_bairro, int id, char *nome)
 {
     nhood *novo = (nhood*) malloc(sizeof(struct Bairro));
     nhood *old_primeiro = (nhood*) malloc(sizeof(struct Bairro));
@@ -108,11 +104,10 @@ void insereinicio_bairro(nhood * head_bairro, int * id, char *nome)
     novo->proxb = old_primeiro;
 }
 
-
 //FUNCAO QUE INSERE UM BAIRRO EM QUALQUER LUGAR DA LISTA DE BAIRROS
-nhood *insere_bairro(nhood * head_bairro, int * id, char *nome)
+nhood *insere_bairro(nhood * head_bairro, int id, char *nome)
 {
-
+    //printf("%i\n", *head_bairro->proxb->id_bairro); 
     if(id < head_bairro->proxb->id_bairro) 
     {
         printf("Entrou\n");
@@ -123,31 +118,52 @@ nhood *insere_bairro(nhood * head_bairro, int * id, char *nome)
         lista até achar o lugar correto para inserir o bairro desejado */
         nhood *bairro_atual = head_bairro->proxb;
         nhood *bairro_anterior = head_bairro;
-        nhood *novo = aloca_bairro(id, nome);
         printf("Entrou 2\n");
+        printf("%d\n", bairro_atual->id_bairro );
         /*os ponteiros avançam na lista até achar um bairro que tenha
          um numero de id maior que o desejado*/
+        //printf("%i\n", bairro_atual->proxb->id_bairro);
         while(id > bairro_atual->id_bairro)
         {
-            printf("Entrou 3\n");
-            bairro_anterior = bairro_atual;
-            bairro_atual = bairro_atual->proxb;
+            if(bairro_atual->proxb == NULL) break;
+            else
+            {
+                if(bairro_atual->proxb->id_bairro < id)
+                {
+                    bairro_anterior = bairro_atual;
+                    bairro_atual = bairro_atual->proxb; 
+                   continue;
+                }
+                else break;      
+            }
         
-        
+        }
+         printf("Entrou 4\n");
         /*se o bairro já esta cadastrado, a função é abortada*/
-        if(id != bairro_atual->id_bairro)
+        if(id == bairro_atual->id_bairro)
         {
             printf("Esse bairro ja foi cadastrado!\n");
         } 
         else 
         {
-            printf("Entrou 4\n");
-            bairro_anterior->proxb = novo;
-            novo->proxb = bairro_atual;
+            printf("Entrou 5\n");
+            nhood *novo = aloca_bairro(id, nome);
+            if(bairro_atual->proxb == NULL) //se for para inserir o novo bairro no fim da lista
+            {
+              bairro_atual->proxb = novo;  
+
+            }
+            else //se for para inserir no meio
+            {
+              nhood *aux;
+              aux = bairro_atual->proxb;
+              bairro_atual->proxb = novo;
+              novo->proxb = aux;
+            }
             return novo;
         }   
 
-        }   
+           
     }
     return 0;
 
