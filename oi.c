@@ -10,6 +10,7 @@ int main() {
     FILE * mapa;
     char * comando, *descr;
     int * id1 = NULL, *id2 = NULL;
+    nhood *head_bairro;
 
     int i;
 
@@ -21,6 +22,38 @@ int main() {
 
     // Inicialização
     mapa = abrirMapa();
+    head_bairro = inicia_bairro();
+
+    /*inserção do primeiro bairro (deletado no fim)*/
+    *id1 = 0;
+    nhood* nulo = aloca_bairro(id1, "nulo");
+    head_bairro->proxb = nulo;
+
+
+    /* ----- testando a criaçãod de bairros ---- */
+    printf("%i\n", *nulo->id_bairro); // mostra que o bairro foi criado
+    printf("%s\n", nulo->nome_bairro);
+
+    printf("%i\n", *head_bairro->proxb->id_bairro); // head_bairro está apontando para nulo corretamente
+    printf("%s\n", head_bairro->proxb->nome_bairro);
+
+
+    *id1 = 5;  // criando um novo
+
+    insere_bairro(head_bairro, id1, "goiabeiras");
+
+
+    printf("%i\n", *head_bairro->proxb->id_bairro);  // deveria continuar apontando para nulo
+    printf("%i\n", *head_bairro->proxb->id_bairro);
+
+    *id1 = 17;
+    insere_bairro(head_bairro, id1, "camburi");
+
+
+    printf("%i\n", *head_bairro->proxb->id_bairro);
+    printf("%i\n", *head_bairro->proxb->id_bairro);
+
+    /* ---- /fim teste  ----- */
 
 
             
@@ -40,8 +73,7 @@ int main() {
                     fscanf(mapa, "%i", id1); // id bairro
                     printf("%i\n", *id1);
 
-                    insere_bairro(head_bairro, id1, "goiabeiras");
-                    
+
                     fscanf(mapa, "%i", id2); // id rua  
                     fscanf(mapa, "%[^\n]", descr); // nome   
 
