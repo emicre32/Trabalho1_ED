@@ -60,6 +60,11 @@ int main() {
     printf("%i\n", head_bairro->proxb->proxb->id_bairro);
     printf("%i\n", head_bairro->proxb->proxb->proxb->id_bairro);
 
+    insere_rua(head_bairro, 0, 1, "av. fernando ferrari");
+    printf("%d\n", head_bairro->proxb->head_rua->id_rua );
+    insere_rua(head_bairro, 0, 2, "reta da penha");
+    printf("%d\n", head_bairro->proxb->head_rua->proxr->id_rua );
+
     /**id1 = 17;
     insere_bairro(head_bairro, id1, "camburi");
 
