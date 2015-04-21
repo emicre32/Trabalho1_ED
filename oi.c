@@ -6,11 +6,13 @@
 
 int main() {
 
-   // Variáveis
+    // Variáveis
     FILE * mapa;
     char * comando, *descr;
     int * id1 = NULL, *id2 = NULL;
     nhood *head_bairro;
+
+    int i;
 
     // Alocações
     comando = (char*)malloc(9*sizeof(char));
@@ -22,13 +24,14 @@ int main() {
     mapa = abrirMapa();
     head_bairro = inicia_bairro();
 
+
             
 
-    //while(comando != EOF)    ~ ativar depois para ler todo o arquivo
-    //{                         ~ por enquanto estou testando apenas com uma linha do arquivo teste
-
+    //while(comando != EOF)
+    //{
+    for(i=0; i<2; i++){
         fscanf(mapa, "%s", comando);  // rua, casa, bairro ou cidade
-
+        printf("%s\n", comando);
         // -----  RUA
         if (strcmp(comando, "rua") == 0)
             {
@@ -37,15 +40,18 @@ int main() {
                 if (strcmp(comando, "incluir") == 0)
                 {
                     fscanf(mapa, "%i", id1); // id bairro
+                    printf("%i\n", *id1);
+
+                    insere_bairro(head_bairro, id1, "goiabeiras");
+                    
                     fscanf(mapa, "%i", id2); // id rua  
                     fscanf(mapa, "%[^\n]", descr); // nome   
-                    
-                    head_bairro = insere_bairro(id1, "camburi");   // para testar o funcionamento
-                    printf("%i, %s\n", *head_bairro->id_bairro, head_bairro->nome_bairro);
 
+                    
                     /* função <incluir_rua> */
                 }
-
+            
+    
                 else if (strcmp(comando, "eliminar") == 0)
                 {
                     fscanf(mapa, "%i", id1); // id bairro  
@@ -64,7 +70,7 @@ int main() {
 
             }
 
-            // -----  RUA
+            // -----  CASA
             else if (strcmp(comando, "casa") == 0)
             {
 
@@ -149,7 +155,7 @@ int main() {
 
                         else printf("Comando nao identificado.\n");
 
-
+            }
 
     return 0;
 }
