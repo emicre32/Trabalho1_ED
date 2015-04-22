@@ -128,8 +128,8 @@ void insere_bairro(nhood * head_bairro, int id, char *nome)
             nhood *bairro_atual;
             nhood *bairro_anterior;
 
-            bairro_atual = head_bairro->proxb;
-            bairro_anterior = head_bairro;
+            bairro_atual = (nhood*)malloc(sizeof(nhood));
+            bairro_anterior = (nhood*)malloc(sizeof(nhood));
 
             while(id > bairro_atual->id_bairro)
             {
@@ -150,7 +150,9 @@ void insere_bairro(nhood * head_bairro, int id, char *nome)
         else insereinicio_bairro(head_bairro, id, nome);
 
     }
+
 }
+
 
 // FIM DE FUNCOES PARA BAIRRO ----------------------------------------------------------------------------//
 
@@ -243,7 +245,7 @@ street *insere_rua(nhood * head_bairro, int idBairro, int id, char *nome)
                   else break;      
                 }
              }
-        
+             printf("atual: %d  id:%d\n", rua_atual->id_rua, id );
              if(id == rua_atual->id_rua)
              {
                  printf("Essa rua ja foi cadastrada!\n");
