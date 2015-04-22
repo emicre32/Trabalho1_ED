@@ -128,8 +128,8 @@ void insere_bairro(nhood * head_bairro, int id, char *nome)
             nhood *bairro_atual;
             nhood *bairro_anterior;
 
-            bairro_atual = (nhood*)malloc(sizeof(nhood));
-            bairro_anterior = (nhood*)malloc(sizeof(nhood));
+            bairro_atual = head_bairro->proxb;
+            bairro_anterior = head_bairro;
 
             while(id > bairro_atual->id_bairro)
             {
@@ -150,9 +150,7 @@ void insere_bairro(nhood * head_bairro, int id, char *nome)
         else insereinicio_bairro(head_bairro, id, nome);
 
     }
-
 }
-
 
 // FIM DE FUNCOES PARA BAIRRO ----------------------------------------------------------------------------//
 
@@ -245,10 +243,10 @@ street *insere_rua(nhood * head_bairro, int idBairro, int id, char *nome)
                   else break;      
                 }
              }
-             printf("atual: %d  id:%d\n", rua_atual->id_rua, id );
+        
              if(id == rua_atual->id_rua)
              {
-                 printf("Essa rua ja foi cadastrada!\n");
+                 printf("ERRO: Rua nao incluida. Bairro id: %i Rua id: %i Rua nome '%s'\n", idBairro, id, nome);
                  return NULL;
              } 
              else 
@@ -278,7 +276,6 @@ street *insere_rua(nhood * head_bairro, int idBairro, int id, char *nome)
 void retira_rua(nhood *head_bairro, int idBairro, int id)
 {
     nhood *bairro = procura_bairro(head_bairro, idBairro);
-    printf("Oi\n");
     if(bairro != NULL)
     { 
         if (bairro->head_rua == NULL) printf("Não há ruas cadastradas neste bairro!\n");
@@ -287,23 +284,37 @@ void retira_rua(nhood *head_bairro, int idBairro, int id)
           street *proxima;
           street *anterior;
 
-          anterior = bairro->head_rua;
-          proxima = bairro->head_rua->proxr;
+          anterior = NULL;
+          proxima = bairro->head_rua;
+
 
           while (proxima->id_rua != id)
             {
               anterior = proxima;
               proxima = proxima->proxr;
-              printf("Oi2\n");
-            }
 
-          if (proxima == NULL) printf("Rua não encontrada!\n");
-          else {
+              if(proxima->id_rua == id)
+              {
+                anterior = proxima->proxr;
+                free(proxima);
+                printf("Rua removida com sucesso. Bairro id: %i Rua id: %i\n", idBairro, id);
+                break;
+              }
+              else if (proxima->proxr == NULL)
+                    {
+                      printf("Bairro vazio ou rua com ID=%i não encontrado.\nERRO: Rua nao removida. Bairro id: %i Rua id: %i\n", id, idBairro, id);
+                      break;
+                    }
+            }
+         
+          if(proxima->id_rua == id)
+          {
             anterior = proxima->proxr;
             free(proxima);
-            printf("Rua retirada com sucesso!\n");
+            printf("Rua removida com sucesso. Bairro id: %i Rua id: %i\n", idBairro, id);
           }
+
         }
-          
-      }
+    }
+    else printf("Bairro vazio ou rua com ID=%i não encontrado.\nERRO: Rua nao removida. Bairro id: %i Rua id: %i\n", id, idBairro, id);
 } 
