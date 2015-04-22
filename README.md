@@ -6,16 +6,16 @@ _Cidade_
 
 _Bairro_ (id, Nome)
 
-	[ ] [inicialização] incluir na cidade
+	[ x ] [inicialização] incluir na cidade
 		>> id, nome
 
 
 _Rua_ (id, Nome)
 
-	[ ] incluir 
+	[ x ] incluir 
 		>> id bairro, id rua, nome
 
-	[ ] eliminar do bairro 
+	[ x ] eliminar do bairro 
 		>> id bairro, id rua
 
 	[ ] medir 
